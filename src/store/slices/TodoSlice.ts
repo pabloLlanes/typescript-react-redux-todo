@@ -1,11 +1,10 @@
 
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-
-
 const initialState: any = {
     data: []
 }
+
 const url = "https://jsonplaceholder.typicode.com/todos";
 
 
@@ -34,7 +33,6 @@ export const TodoSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchTodos.fulfilled, (state, action) => {
-            console.log(action.payload)
             state.data = action.payload;
         })
     }

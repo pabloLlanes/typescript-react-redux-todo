@@ -1,17 +1,13 @@
 
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-const initialState: any = {
-    data: []
-}
-
-const url = "https://jsonplaceholder.typicode.com/todos";
+const apiUrl = "https://jsonplaceholder.typicode.com/todos";
 
 
-export const fetchTodos = createAsyncThunk(
-    "todo/fetch",
+export const fetchToDos = createAsyncThunk(
+    "toDo/fetch",
     async () => {
-        const response = await fetch(url, {
+        const response = await fetch(apiUrl, {
             method: "GET",
         });
         const data = response.json();
@@ -19,26 +15,57 @@ export const fetchTodos = createAsyncThunk(
     },
 );
 
+const initialState: any = {
+    data: []
+}
 
-export const TodoSlice = createSlice({
-    name: "todo",
+const generateNextId = (array: any) => {
+    const sortData = array?.sort((a: any, b: any) => b.id - a.id)
+    return sortData[0].id + 1;
+}
+
+
+export const ToDoSlice = createSlice({
+    name: "toDo",
     initialState,
     reducers: {
-        addTodo: (state, action: PayloadAction) => {
-            return action.payload
+        addToDo: (state, action) => {
+            const { data } = state;
+            const sortData = [...data];
+            const newId = generateNextId(sortData)
+            const newToDo = { ...action.payload, id: newId }
+            state.data.push(newToDo)
+        },
+
+        deleteToDo: (state, action: PayloadAction) => {
+            const { data } = state
+            const toDo = data.find((toDo: any) => toDo.id === action.payload);
+            if (toDo) {
+                data.splice(data.indexOf(toDo), 1);
+            }
+        },
+        updateToDo: (state, action) => {
+            const { data } = state
+            const { id, completed, title } = action.payload;
+            const toDo = data.find((toDo: any) => toDo.id === id);
+            if (toDo) {
+                toDo.title = title;
+                toDo.completed = completed;
+            }
         },
         reset: () => {
             return initialState;
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchTodos.fulfilled, (state, action) => {
+        builder.addCase(fetchToDos.fulfilled, (state, action) => {
             state.data = action.payload;
         })
     }
 })
 
 
-export default TodoSlice.reducer;
+export const { addToDo, deleteToDo, updateToDo, reset } = ToDoSlice.actions;
 
-export const { addTodo, reset } = TodoSlice.actions;
+export default ToDoSlice.reducer;
+

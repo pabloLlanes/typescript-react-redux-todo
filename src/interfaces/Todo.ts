@@ -1,5 +1,6 @@
 export interface IFetchTodos {
     data: IToDo[]
+    isLoading: boolean
 }
 
 export interface IToDo {

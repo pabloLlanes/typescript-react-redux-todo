@@ -23,10 +23,10 @@ const ToDo = ({ toDo, setFormToDo }: Props) => {
                 {toDo.id}
             </p>
         </div>,
-        <span className="px-3 py-1 font-semibold text-xs sm:text-xl">
+        <span className="flex justify-center px-3 py-1 font-semibold text-xs sm:text-lg">
             {
                 toDo.completed ?
-                    <p className="bg-green-700 p-1 text-green-100 rounded-xl"> COMPLETED </p> :
+                    <p className="xl:w-3/4 bg-green-700 p-1 text-green-100 rounded-xl"> COMPLETED </p> :
                     <p className="bg-red-400 p-1 text-slate-50 rounded-xl"> TODO </p>
             }
         </span >,

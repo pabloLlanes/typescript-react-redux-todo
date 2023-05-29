@@ -46,9 +46,7 @@ const FormLogin = () => {
 
     return (
         <div className="h-screen w-full bg-slate-100 flex flex-col justify-center items-center rounded-lg">
-
             <div className="p-12 shadow-2xl bg-white border-b-4 border-r-2 border-gray-300">
-
                 <h1 className="py-6 text-2xl">WELCOME</h1>
                 <form className="flex items-center justify-center flex-col "
                     onSubmit={handleSubmit}>
@@ -80,7 +78,6 @@ const FormLogin = () => {
                     <button className="bg-indigo-300 text-white text-lg px-6 py-2 rounded-xl mt-10">
                         Login
                     </button>
-
                 </form>
             </div>
         </div>

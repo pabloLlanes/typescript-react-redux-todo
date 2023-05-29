@@ -16,7 +16,8 @@ export const fetchToDos = createAsyncThunk(
 );
 
 const initialState: IFetchTodos = {
-    data: []
+    data: [],
+    isLoading: true
 }
 
 const generateNextId = (array: IToDo[]) => {
@@ -59,6 +60,7 @@ export const ToDoSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchToDos.fulfilled, (state, action) => {
             state.data = action.payload;
+            state.isLoading = false;
         })
     }
 })

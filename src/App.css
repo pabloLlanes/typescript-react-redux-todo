@@ -3,6 +3,29 @@
 @tailwind utilities;
 
 
-
+.spinner {
+  display: inline-block;
+  width: 12rem;
+  height: 12rem;
+}
+.spinner:after {
+  content: " ";
+  display: block;
+  width: 12rem;
+  height: 12rem;
+  margin: 8px;
+  border-radius: 50%;
+  border: 10px solid rgb(129 140 248);
+  border-color: rgb(129 140 248) transparent rgb(129 140 248) transparent;
+  animation: move 1.5s linear infinite;
+}
+@keyframes move {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 

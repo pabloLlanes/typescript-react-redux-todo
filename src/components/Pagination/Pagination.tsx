@@ -29,6 +29,7 @@ const Pagination = (props: Props) => {
     }
 
     const handleAlgo = (qtyPerPage: number) => {
+        if (perPage === qtyPerPage) { return }
         handleSetPage(0);
         handleSetPerPage(qtyPerPage);
         scrollToTop();
@@ -36,20 +37,20 @@ const Pagination = (props: Props) => {
 
     return (
         <div className=" flex w-full flex-wrap justify-around items-center px-5 py-5 ">
-            <div className="flex flex-col items-center">
-                <h3 className="py-2">Pages</h3>
+            <div className="flex flex-col justify-center items-center">
+                <h3 className="py-2">Page</h3>
                 <div className="flex gap-4 justify-center items-center">
                     {
                         page >= 1 &&
                         <>
                             <button
                                 onClick={handleBeforePage}
-                                type="button" className="w-full p-2 px-4 text-gray-600 bg-white border rounded-l-xl hover:bg-gray-100">
+                                type="button" className="w-full p-2 px-4 text-indigo-600 bg-white border rounded-l-xl hover:bg-indigo-300">
                                 {"<"}
                             </button>
                         </>
                     }
-                    <button type="button" className="w-full px-5 py-3 text-indigo-500 bg-white  border-2 hover:bg-gray-100 ">
+                    <button type="button" className="w-full px-5 py-3  bg-white  border-2 hover:bg-indigo-300 ">
                         {page + 1}
                     </button>
                     {
@@ -57,7 +58,7 @@ const Pagination = (props: Props) => {
                         <button
                             type="button"
                             onClick={handleNextPage}
-                            className="w-full p-2 px-4 text-base text-gray-600 bg-white border-t border-b border-r rounded-r-xl hover:bg-indigo-200">
+                            className="w-full p-2 px-4 text-base text-indigo-500 bg-white border-t border-b border-r rounded-r-xl hover:bg-indigo-300">
                             {">"}
                         </button>
                     }

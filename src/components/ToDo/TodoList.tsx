@@ -17,10 +17,11 @@ const TodoList = ({ handleAdd, setFormToDo }: Props) => {
     const dispatch = useAppDispatch();
 
     const toDos = useAppSelector((state) => state.toDo.data);
+    const isLoading = useAppSelector((state) => state.toDo.isLoading);
 
     useEffect(() => {
         if (toDos.length === 0) {
-            console.log('FETCHING ToDos.....')
+            console.log('Fetching ToDos.....')
             dispatch(fetchToDos())
         }
     }, [])
@@ -39,35 +40,39 @@ const TodoList = ({ handleAdd, setFormToDo }: Props) => {
 
     const handleSetPerPage = (qtyPerPage: number) => setPerPage(qtyPerPage);
 
-
     return (
         <div className="flex flex-col h-full min-h-screen justify-center items-center bg-slate-200">
-            <table className="px-4 py-4 w-5/6 mt-16">
-                <thead>
-                    <tr>
-                        {theads.map((th, i) =>
-                            <th key={i} className="bg-indigo-500 px-5 py-3 text-md text-center text-slate-100 border-b-2 border-purple-600 shadow-xl">
-                                {th}
-                            </th>)}
-                        <th className="bg-indigo-500 px-5 py-3 text-right gap-2 border-b-2 border-purple-600 text-md shadow-xl">
-                            <div className="flex justify-end gap-6">
-                                <button className="bg-green-400 w-32 py-3 mx-2 rounded-full border-emerald-400 border-l-emerald-400 shadow-xl"
-                                    onClick={handleAdd}>
-                                    Add ToDo
-                                </button>
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody >
-                    {
-                        displayToDos?.map((toDo: IToDo) =>
-                            <ToDo key={toDo.id} toDo={toDo} setFormToDo={setFormToDo} />
-                        )
-                    }
-                </tbody>
-            </table>
-
+            {isLoading ?
+                <div className="h-screen flex justify-center items-center">
+                    <div className="spinner border-indigo-400"></div>
+                </div>
+                :
+                <table className="px-4 py-4 w-5/6 mt-16">
+                    <thead>
+                        <tr>
+                            {theads.map((th, i) =>
+                                <th key={i} className="bg-indigo-500 uppercase px-5 py-3 text-lg text-center text-slate-100 border-b-2 border-purple-600 shadow-xl">
+                                    {th}
+                                </th>)}
+                            <th className="bg-indigo-500 px-5 py-3 text-right gap-2 border-b-2 border-purple-600 text-md shadow-xl">
+                                <div className="flex justify-end gap-6">
+                                    <button className="bg-green-400 w-32 py-3 mx-2 rounded-full border-emerald-400 border-l-emerald-400 shadow-xl"
+                                        onClick={handleAdd}>
+                                        Add ToDo
+                                    </button>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        {
+                            displayToDos?.map((toDo: IToDo) =>
+                                <ToDo key={toDo.id} toDo={toDo} setFormToDo={setFormToDo} />
+                            )
+                        }
+                    </tbody>
+                </table>
+            }
             <Pagination
                 page={page}
                 perPage={perPage}

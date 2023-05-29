@@ -9,7 +9,7 @@ interface Props {
     setFormToDo: (param: IFormTodo) => void
 }
 
-const FormToDo = ({ type, id, setFormToDo }: Props) => {
+const ToDoForm = ({ type, id, setFormToDo }: Props) => {
     const dispatch = useAppDispatch();
 
     const [isSelected, setIsSelected] = useState<boolean>(false);
@@ -64,9 +64,9 @@ const FormToDo = ({ type, id, setFormToDo }: Props) => {
         <div className="flex flex-col h-screen justify-center bg-slate-200 items-center">
             <form
                 onSubmit={handleSubmit}
-                className="w-1/2 h-2/4 p-8 flex flex-col items-center justify-center shadow-2xl bg-white border-b-4 border-r-2 border-gray-300">
+                className="w-full sm:w-5/6 md:w-1/2 h-2/4 max-w-xl p-8 flex flex-col items-center justify-center shadow-2xl bg-white border-b-4 border-r-2 border-gray-300">
 
-                <h2 className="text-gray-900 p-6 text-2xl font-semibold">
+                <h2 className="text-gray-900 p-4 text-2xl font-semibold">
                     {isUpdateTodo ?
                         `Update ToDo with Id: ${id}`
                         : "Create a New ToDo"
@@ -134,4 +134,4 @@ const FormToDo = ({ type, id, setFormToDo }: Props) => {
     );
 }
 
-export default FormToDo;
+export default ToDoForm;

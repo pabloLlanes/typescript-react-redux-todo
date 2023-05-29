@@ -1,6 +1,6 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { FetchTodos, IToDo } from "../../interfaces/Todo";
+import { IFetchTodos, IToDo } from "../../interfaces/Todo";
 
 const apiUrl = "https://jsonplaceholder.typicode.com/todos";
 
@@ -15,9 +15,7 @@ export const fetchToDos = createAsyncThunk(
     },
 );
 
-
-
-const initialState: FetchTodos = {
+const initialState: IFetchTodos = {
     data: []
 }
 

@@ -1,4 +1,4 @@
-export interface FetchTodos {
+export interface IFetchTodos {
     data: IToDo[]
 }
 
@@ -7,5 +7,11 @@ export interface IToDo {
     id: number,
     title: string,
     completed: boolean
+}
+
+export interface IFormTodo {
+    isOpen: boolean,
+    type: string | null,
+    id: number | null
 }
 

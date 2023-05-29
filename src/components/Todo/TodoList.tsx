@@ -3,21 +3,14 @@ import Pagination from "../Pagination/Pagination";
 import ToDo from "./ToDo";
 import { fetchToDos } from "../../store/slices/ToDoSlice";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { IToDo } from "../../interfaces/Todo";
-
-export interface IFormTodo {
-    isOpen: boolean,
-    type: string | null,
-    id: number | null
-}
+import { IFormTodo, IToDo } from "../../interfaces/Todo";
 
 interface Props {
     handleAdd: () => void;
     setFormToDo: (param: IFormTodo) => void
 }
 
-const TodoList = (props: Props) => {
-    const { handleAdd, setFormToDo } = props;
+const TodoList = ({ handleAdd, setFormToDo }: Props) => {
 
     const theads = ["Id", "Status", "Title"];
 
@@ -32,19 +25,20 @@ const TodoList = (props: Props) => {
         }
     }, [])
 
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState<number>(0);
 
-    const [perPage, setPerPage] = useState(10);
+    const [perPage, setPerPage] = useState<number>(10);
 
     const totalPages = Math.ceil(toDos?.length / perPage);
 
     const pagesVisited = page * perPage;
 
-    const handlePagination = (updatePage: number) => setPage(updatePage);
+    const displayToDos = toDos?.slice(pagesVisited, pagesVisited + perPage);
+
+    const handlePagination = (goToPage: number) => setPage(goToPage);
 
     const handleSetPerPage = (qtyPerPage: number) => setPerPage(qtyPerPage);
 
-    const displayToDos = toDos?.slice(pagesVisited, pagesVisited + perPage);
 
     return (
         <div className="flex flex-col h-full min-h-screen justify-center items-center bg-slate-200">
@@ -52,16 +46,15 @@ const TodoList = (props: Props) => {
                 <thead>
                     <tr>
                         {theads.map((th, i) =>
-                            <th key={i} className="bg-indigo-500 px-5 py-3 text-md text-center text-slate-100  border-b-2 border-purple-600 shadow-xl">
+                            <th key={i} className="bg-indigo-500 px-5 py-3 text-md text-center text-slate-100 border-b-2 border-purple-600 shadow-xl">
                                 {th}
                             </th>)}
-                        <th className="bg-indigo-500 px-5 py-3 text-center gap-2 border-b-2 border-purple-600 text-md shadow-xl">
-                            <div className="flex items-center justify-between gap-6">
-                                <button className="bg-green-400 w-24 py-3 mx-2 rounded-full border-emerald-400 border-l-emerald-400 shadow-xl"
+                        <th className="bg-indigo-500 px-5 py-3 text-right gap-2 border-b-2 border-purple-600 text-md shadow-xl">
+                            <div className="flex justify-end gap-6">
+                                <button className="bg-green-400 w-32 py-3 mx-2 rounded-full border-emerald-400 border-l-emerald-400 shadow-xl"
                                     onClick={handleAdd}>
-                                    Add ToDo+
+                                    Add ToDo
                                 </button>
-
                             </div>
                         </th>
                     </tr>

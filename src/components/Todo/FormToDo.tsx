@@ -1,8 +1,7 @@
 import { addToDo, updateToDo } from "../../store/slices/ToDoSlice";
 import { useState } from "react";
-import { IFormTodo } from "./TodoList";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { IToDo } from "../../interfaces/Todo";
+import { IFormTodo, IToDo } from "../../interfaces/Todo";
 
 interface Props {
     type: string | null,
@@ -10,10 +9,11 @@ interface Props {
     setFormToDo: (param: IFormTodo) => void
 }
 
-const FormToDo = (props: Props) => {
+const FormToDo = ({ type, id, setFormToDo }: Props) => {
     const dispatch = useAppDispatch();
-    const { type, id, setFormToDo } = props;
-    const [isSelected, setIsSelected] = useState(false);
+
+    const [isSelected, setIsSelected] = useState<boolean>(false);
+
     const toDos = useAppSelector((state) => state.toDo.data)
 
     const toDo = toDos?.find((toDo: IToDo) => toDo.id === id)
@@ -21,9 +21,10 @@ const FormToDo = (props: Props) => {
     const isUpdateTodo = type === "UPDATE"
 
     const initialForm = {
+        id: null,
         userId: null,
         title: `${isUpdateTodo ? toDo?.title : ""}`,
-        completed: `${isUpdateTodo ? toDo?.completed : ""}`
+        completed: `${isUpdateTodo ? toDo?.completed : false}`
     }
 
     const [newToDo, setNewToDo] = useState(initialForm);
@@ -51,7 +52,7 @@ const FormToDo = (props: Props) => {
     };
 
     const handleSelectionChange = (e: any) => {
-        setIsSelected(e.target.value === 'true');
+        setIsSelected(e.target.value === "true");
     };
 
     const closeEditAddModal = (e: any) => {
@@ -117,22 +118,19 @@ const FormToDo = (props: Props) => {
                 <div className="pt-12 px-8 text-sm flex justify-between w-full">
                     <button
                         onClick={closeEditAddModal}
-                        className="py-2 px-4 bg-red-400  text-white rounded-lg"
+                        className="py-2 px-4 bg-red-500  text-white rounded-lg"
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
-                        className="py-2 px-4 bg-green-400 text-white rounded-lg"
+                        className="py-2 px-4 bg-green-500 text-white rounded-lg"
                     >
                         {type}
                     </button>
-
                 </div>
-
             </form >
         </div>
-
     );
 }
 

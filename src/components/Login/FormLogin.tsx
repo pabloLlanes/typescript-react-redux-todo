@@ -5,7 +5,7 @@ import { logInUser } from "../../store/slices/UserSlice";
 const FormLogin = () => {
     const dispatch = useAppDispatch()
 
-    const [isFailLogIn, setIsFailLogIn] = useState(false);
+    const [isFailLogIn, setIsFailLogIn] = useState<boolean>(false);
 
     type Login = {
         username: string;
@@ -39,11 +39,10 @@ const FormLogin = () => {
         dispatch(logInUser(userLogin));
         if (!user.isLogging) {
             setIsFailLogIn(true);
-            setTimeout(() => { setIsFailLogIn(false) }, 5000)
+            setTimeout(() => { setIsFailLogIn(false) }, 3000)
             return;
         }
     };
-
 
     return (
         <div className="h-screen w-full bg-slate-100 flex flex-col justify-center items-center rounded-lg">

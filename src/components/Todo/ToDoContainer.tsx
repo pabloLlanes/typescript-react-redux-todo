@@ -1,7 +1,7 @@
 import { useState } from "react";
-
-import TodoList, { IFormTodo } from "./TodoList";
+import TodoList from "./TodoList";
 import { FormToDo } from ".";
+import { IFormTodo } from "../../interfaces/Todo";
 
 
 const ToDoContainer = () => {
@@ -11,7 +11,6 @@ const ToDoContainer = () => {
   const handleAdd = () => {
     setFormToDo({ isOpen: true, type: "CREATE", id: null });
   };
-
 
   return (
     <>

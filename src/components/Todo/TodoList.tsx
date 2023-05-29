@@ -1,87 +1,88 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import { useDispatch, useSelector } from 'react-redux';
-
 import Pagination from "../Pagination/Pagination";
 import ToDo from "./ToDo";
 import { fetchToDos } from "../../store/slices/ToDoSlice";
-import AddEditToDo from "./AddEditToDo";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { IToDo } from "../../interfaces/Todo";
 
+export interface IFormTodo {
+    isOpen: boolean,
+    type: string | null,
+    id: number | null
+}
 
-const ToDoList = () => {
-  const dispatch = useAppDispatch();
-  const toDos = useAppSelector((state) => state.toDo.data);
+interface Props {
+    handleAdd: () => void;
+    setFormToDo: (param: IFormTodo) => void
+}
 
-  useEffect(() => {
-    if (toDos.length === 0) {
-      console.log('FETCH TODOS')
-      dispatch(fetchToDos())
-    }
-  }, [])
+const TodoList = (props: Props) => {
+    const { handleAdd, setFormToDo } = props;
 
-  const [page, setPage] = useState(0);
-  const [openAddEditToDo, setAddEditToDo] = useState({ isOpen: false, type: "CREATE", id: null });
+    const theads = ["Id", "Status", "Title"];
 
-  const [perPage, setPerPage] = useState(15);
+    const dispatch = useAppDispatch();
 
-  const totalPages = Math.ceil(toDos?.length / perPage);
+    const toDos = useAppSelector((state) => state.toDo.data);
 
-  const pagesVisited = page * perPage;
+    useEffect(() => {
+        if (toDos.length === 0) {
+            console.log('FETCHING ToDos.....')
+            dispatch(fetchToDos())
+        }
+    }, [])
 
-  const handlePagination = (updatePage: number) => setPage(updatePage);
+    const [page, setPage] = useState(0);
 
-  const handleSetPerPage = (qtyPerPage: number) => setPerPage(qtyPerPage);
+    const [perPage, setPerPage] = useState(10);
 
-  const displayToDos = toDos?.slice(pagesVisited, pagesVisited + perPage);
+    const totalPages = Math.ceil(toDos?.length / perPage);
 
-  const handleAdd = () => {
-    setAddEditToDo({ isOpen: true, type: "CREATE", id: null });
-  };
+    const pagesVisited = page * perPage;
 
-  const theads = ["Id", "Status", "Title"];
+    const handlePagination = (updatePage: number) => setPage(updatePage);
 
-  return (
-    <div className='flex justify-center items-center'>
-      {openAddEditToDo.isOpen ?
-        <AddEditToDo type={openAddEditToDo.type} id={openAddEditToDo.id} setAddEditToDo={setAddEditToDo} /> :
-        <div className="flex flex-col">
+    const handleSetPerPage = (qtyPerPage: number) => setPerPage(qtyPerPage);
 
-          <table className="px-4 py-4 -mx-4 min-w-full ">
-            <thead >
-              <tr >
-                {theads.map((th, i) =>
-                  <th key={i} className="bg-blue-200 px-5 py-3 text-sm text-center text-gray-800   border-b-4 border-blue-600">
-                    {th}
-                  </th>)}
-                <th className="bg-blue-200 px-5 py-3 text-sm text-center text-gray-800  border-b-4 border-blue-600">
+    const displayToDos = toDos?.slice(pagesVisited, pagesVisited + perPage);
 
-                  <button className="bg-green-400 p-2 mx-1 rounded-md"
-                    onClick={handleAdd}>
-                    ADD
-                  </button>
-                </th>
-              </tr>
-            </thead>
+    return (
+        <div className="flex flex-col h-full min-h-screen justify-center items-center bg-slate-200">
+            <table className="px-4 py-4 w-5/6 mt-16">
+                <thead>
+                    <tr>
+                        {theads.map((th, i) =>
+                            <th key={i} className="bg-indigo-500 px-5 py-3 text-md text-center text-slate-100  border-b-2 border-purple-600 shadow-xl">
+                                {th}
+                            </th>)}
+                        <th className="bg-indigo-500 px-5 py-3 text-center gap-2 border-b-2 border-purple-600 text-md shadow-xl">
+                            <div className="flex items-center justify-between gap-6">
+                                <button className="bg-green-400 w-24 py-3 mx-2 rounded-full border-emerald-400 border-l-emerald-400 shadow-xl"
+                                    onClick={handleAdd}>
+                                    Add ToDo+
+                                </button>
 
-            <tbody>
-              {
-                displayToDos?.map((toDo: any) =>
-                  <ToDo key={toDo.id} toDo={toDo} setAddEditToDo={setAddEditToDo} />
-                )
-              }
-            </tbody>
-          </table>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody >
+                    {
+                        displayToDos?.map((toDo: IToDo) =>
+                            <ToDo key={toDo.id} toDo={toDo} setFormToDo={setFormToDo} />
+                        )
+                    }
+                </tbody>
+            </table>
 
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            handleSetPage={handlePagination}
-            handleSetPerPage={handleSetPerPage}
-          />
-        </div>
-      }
-    </div>
-  );
-};
+            <Pagination
+                page={page}
+                perPage={perPage}
+                totalPages={totalPages}
+                handleSetPage={handlePagination}
+                handleSetPerPage={handleSetPerPage}
+            />
+        </div>);
+}
 
-export default ToDoList;
+export default TodoList;

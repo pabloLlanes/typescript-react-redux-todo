@@ -1,8 +1,8 @@
 
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { FetchTodos, IToDo } from "../../interfaces/Todo";
 
 const apiUrl = "https://jsonplaceholder.typicode.com/todos";
-
 
 export const fetchToDos = createAsyncThunk(
     "toDo/fetch",
@@ -15,15 +15,16 @@ export const fetchToDos = createAsyncThunk(
     },
 );
 
-const initialState: any = {
+
+
+const initialState: FetchTodos = {
     data: []
 }
 
-const generateNextId = (array: any) => {
+const generateNextId = (array: IToDo[]) => {
     const sortData = array?.sort((a: any, b: any) => b.id - a.id)
     return sortData[0].id + 1;
 }
-
 
 export const ToDoSlice = createSlice({
     name: "toDo",
@@ -37,9 +38,9 @@ export const ToDoSlice = createSlice({
             state.data.push(newToDo)
         },
 
-        deleteToDo: (state, action: PayloadAction) => {
+        deleteToDo: (state, action) => {
             const { data } = state
-            const toDo = data.find((toDo: any) => toDo.id === action.payload);
+            const toDo = data.find((toDo: IToDo) => toDo.id === action.payload);
             if (toDo) {
                 data.splice(data.indexOf(toDo), 1);
             }
@@ -47,7 +48,7 @@ export const ToDoSlice = createSlice({
         updateToDo: (state, action) => {
             const { data } = state
             const { id, completed, title } = action.payload;
-            const toDo = data.find((toDo: any) => toDo.id === id);
+            const toDo = data.find((toDo: IToDo) => toDo.id === id);
             if (toDo) {
                 toDo.title = title;
                 toDo.completed = completed;

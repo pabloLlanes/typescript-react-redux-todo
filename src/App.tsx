@@ -1,13 +1,13 @@
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom"
+import { Home, Login } from "./pages";
 import './App.css'
-import { Login } from "./pages/Login"
-import { Home } from "./pages/Home"
-import { useSelector } from "react-redux"
+import { useAppSelector } from "./store/store";
 
 function App() {
-  const user = useSelector((state: any) => state.user)
-  console.log(user.isLogging)
+  const user = useAppSelector((state) => state.user)
+
   const userIsLogging = user.isLogging;
+
   return (
     <BrowserRouter>
       <Routes >
@@ -25,8 +25,6 @@ function App() {
         />
       </Routes>
     </BrowserRouter>
-
   )
 }
-
 export default App

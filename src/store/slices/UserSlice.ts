@@ -18,7 +18,7 @@ export const UserSlice = createSlice({
             }
         },
         logOutUser: (state, action) => {
-            state === initialState;
+            state.isLogging = action.payload
         },
     }
 })

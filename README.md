@@ -10,7 +10,7 @@ Tech Stack:
 - Redux - https://redux-toolkit.js.org/
 - Tailwind - https://tailwindcss.com/
 
-Started
+- Started
 Install Project
 ```
 npm install
